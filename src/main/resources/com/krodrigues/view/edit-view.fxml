@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.krodrigues.controller.EditarController">
+   <children>
+       <GridPane maxHeight="1080.0" maxWidth="1920.0" prefHeight="720.0" prefWidth="1280.0">
+           <columnConstraints>
+               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+           </columnConstraints>
+           <rowConstraints>
+               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+           </rowConstraints>
+           <GridPane GridPane.columnIndex="1">
+               <columnConstraints>
+                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                   <RowConstraints maxHeight="355.0" minHeight="10.0" prefHeight="126.0" vgrow="SOMETIMES" />
+                   <RowConstraints maxHeight="467.0" minHeight="10.0" prefHeight="189.80001220703124" vgrow="SOMETIMES" />
+                   <RowConstraints maxHeight="400.0" minHeight="10.0" prefHeight="220.00003662109378" vgrow="SOMETIMES" />
+                   <RowConstraints maxHeight="335.0" minHeight="10.0" prefHeight="176.79996337890623" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <Label alignment="CENTER" contentDisplay="CENTER" text="Tarefa" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+                   <GridPane.margin>
+                       <Insets top="30.0" />
+                   </GridPane.margin>
+                   <font>
+                       <Font size="20.0" />
+                   </font>
+               </Label>
+               <TextField fx:id="tarefaName" prefHeight="40.0" prefWidth="300.0" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+               <tooltip>
+                  <Tooltip text="Insira o nome da tarefa. Obrigatório." />
+               </tooltip></TextField>
+               <Label alignment="CENTER" contentDisplay="CENTER" text="Descrição" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                   <font>
+                       <Font size="20.0" />
+                   </font>
+                   <GridPane.margin>
+                       <Insets top="30.0" />
+                   </GridPane.margin>
+               </Label>
+               <TextArea fx:id="tarefaDiscricao" maxHeight="-Infinity" prefHeight="115.0" prefWidth="427.0" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+               <tooltip>
+                  <Tooltip text="Insira uma descrição da tarefa." />
+               </tooltip></TextArea>
+               <GridPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="154.0" prefWidth="427.0" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+                   <columnConstraints>
+                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                   </columnConstraints>
+                   <rowConstraints>
+                       <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                       <RowConstraints maxHeight="79.19998779296876" minHeight="55.19998779296875" prefHeight="56.8000244140625" />
+                       <RowConstraints maxHeight="60.8" minHeight="10.0" prefHeight="30.0" />
+                       <RowConstraints maxHeight="60.8" minHeight="10.0" prefHeight="40.0" />
+                   </rowConstraints>
+                   <GridPane.margin>
+                       <Insets top="30.0" />
+                   </GridPane.margin>
+                   <Label alignment="CENTER" contentDisplay="CENTER" text="Data Inicio" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+                       <font>
+                           <Font size="20.0" />
+                       </font>
+                       <GridPane.margin>
+                           <Insets />
+                       </GridPane.margin>
+                   </Label>
+                   <DatePicker fx:id="tarefaDtInicio" prefHeight="50.0" prefWidth="192.0" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                  <tooltip>
+                     <Tooltip text="Insira a data de inicio da da tarefa. Obrigatório." />
+                  </tooltip></DatePicker>
+                   <Label alignment="CENTER" contentDisplay="CENTER" text="Data Vencimento" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+                       <font>
+                           <Font size="20.0" />
+                       </font>
+                   </Label>
+                   <DatePicker fx:id="tarefaDtLimite" prefHeight="50.0" prefWidth="177.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                  <tooltip>
+                     <Tooltip text="Insira a data de vencimento da da tarefa. Obrigatório." />
+                  </tooltip></DatePicker>
+                   <Label alignment="CENTER" contentDisplay="CENTER" text="Data Conclusao" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
+                       <font>
+                           <Font size="20.0" />
+                       </font>
+                       <GridPane.margin>
+                           <Insets />
+                       </GridPane.margin>
+                   </Label>
+                   <DatePicker fx:id="tarefaDtConclusao" prefHeight="50.0" prefWidth="177.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+                  <tooltip>
+                     <Tooltip text="Insira a data de Conclusão da da tarefa." />
+                  </tooltip></DatePicker>
+                   <Label alignment="CENTER" contentDisplay="CENTER" text="Status" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+                       <font>
+                           <Font size="20.0" />
+                       </font>
+                   </Label>
+                   <MenuButton fx:id="statusBox" alignment="CENTER" mnemonicParsing="false" prefHeight="50.0" prefWidth="177.0" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+                       <items>
+                           <MenuItem fx:id="naoIniciadaItem" mnemonicParsing="false" onAction="#atualizarStatus" text="NAO_INICIADA" />
+                           <MenuItem fx:id="emAndamentoItem" mnemonicParsing="false" onAction="#atualizarStatus" text="EM_ANDAMENTO" />
+                           <MenuItem fx:id="verificandoItem" mnemonicParsing="false" onAction="#atualizarStatus" text="VERIFICANDO" />
+                           <MenuItem fx:id="concluidoItem" mnemonicParsing="false" onAction="#atualizarStatus" text="CONCLUIDA" />
+                       </items>
+                       <font>
+                           <Font size="14.0" />
+                       </font>
+                  <tooltip>
+                     <Tooltip text="Selecione o status da tarefa." />
+                  </tooltip>
+                   </MenuButton>
+
+
+               </GridPane>
+               <Button fx:id="buttonSalvar" contentDisplay="TOP" mnemonicParsing="false" onAction="#salvarTarefa" prefHeight="44.0" prefWidth="151.0" text="Salvar" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+                   <font>
+                       <Font size="20.0" />
+                   </font>
+               <tooltip>
+                  <Tooltip text="Clique para salvar." />
+               </tooltip>
+               </Button>
+
+           </GridPane>
+       </GridPane>
+   </children>
+</AnchorPane>
