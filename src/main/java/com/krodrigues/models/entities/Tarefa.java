@@ -76,7 +76,4 @@ public class Tarefa {
         this.id = id;
     }
 
-    // Apenas getters e setters.
-
-
 }

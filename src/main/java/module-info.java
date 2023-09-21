@@ -15,6 +15,7 @@ module com.krodrigues {
     requires eu.hansolo.tilesfx;
     requires java.sql;
     requires org.xerial.sqlitejdbc;
+    requires com.zaxxer.hikari;
 
     opens com.krodrigues.controller to javafx.fxml;
 
