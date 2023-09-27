@@ -4,7 +4,7 @@ import com.krodrigues.models.entities.Tarefa;
 
 import java.util.List;
 
-public interface RepositorioTarefa {
+public interface TypeTarefa {
     void adicionarTarefa(Tarefa tarefa);
     void atualizarTarefa(Tarefa tarefa);
     void removerTarefa(int id);

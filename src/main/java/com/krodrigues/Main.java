@@ -1,14 +1,16 @@
 package com.krodrigues;
 
 import com.krodrigues.controller.TabelaController;
+import com.krodrigues.models.repository.ConexaoBancoDados;
+import com.krodrigues.models.repository.TarefaDAO;
 import com.krodrigues.models.services.TarefaService;
-import com.krodrigues.models.repository.RepositorioTarefa;
-import com.krodrigues.models.repository.RepositorioTarefasMemoria;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+
+import java.sql.Connection;
 
 
 public class Main extends Application {
@@ -19,9 +21,10 @@ public class Main extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/krodrigues/view/tabela-view.fxml"));
         AnchorPane root = fxmlLoader.load();
 
-        // Configura o repositório de tarefas
-        RepositorioTarefa repositorio = new RepositorioTarefasMemoria();
-        TarefaService tarefaService = new TarefaService(repositorio);
+        // Configura conexão com tarefas
+        Connection conexao = ConexaoBancoDados.getDataSource().getConnection();
+        TarefaDAO tarefaDAO = new TarefaDAO(conexao);
+        TarefaService tarefaService = new TarefaService(tarefaDAO);
 
         // Configura o controlador da tabela e injeta o serviço
         TabelaController tabelaController = fxmlLoader.getController();

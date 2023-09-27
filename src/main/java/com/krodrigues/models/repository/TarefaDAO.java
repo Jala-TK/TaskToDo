@@ -3,89 +3,108 @@ package com.krodrigues.models.repository;
 import com.krodrigues.models.entities.StatusTarefa;
 import com.krodrigues.models.entities.Tarefa;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TarefaDAO {
+public class TarefaDAO implements TypeTarefa {
     private Connection connection;
 
     public TarefaDAO(Connection connection) {
         this.connection = connection;
     }
+    @Override
+    public void adicionarTarefa(Tarefa tarefa) {
+        try {
+            String comandoSQL = "INSERT INTO tarefas (titulo, descricao, dataInicio, dataLimite, status) VALUES (?, ?, ?, ?, ?)";
 
-    public void inserir(Tarefa tarefa) throws SQLException {
-        String sql = "INSERT INTO tarefas (titulo, descricao, status, datainicio, datalimite) VALUES (?, ?, ?, ?, ?)";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setString(1, tarefa.getTitulo());
-            preparedStatement.setString(2, tarefa.getDescricao());
-            preparedStatement.setString(3, tarefa.getStatus().name());
-            preparedStatement.setDate(4,  java.sql.Date.valueOf(tarefa.getDataInicio()));
-            preparedStatement.setDate(5,  java.sql.Date.valueOf(tarefa.getDataLimite()));
-            preparedStatement.executeUpdate();
+            try (PreparedStatement preparedStatement = connection.prepareStatement(comandoSQL)) {
+                preparedStatement.setString(1, tarefa.getTitulo());
+                preparedStatement.setString(2, tarefa.getDescricao());
+                preparedStatement.setDate(3, java.sql.Date.valueOf(tarefa.getDataInicio()));
+                preparedStatement.setDate(4, java.sql.Date.valueOf(tarefa.getDataLimite()));
+                preparedStatement.setString(5, tarefa.getStatus().toString());
+
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
-    public Tarefa buscarPorId(int id) throws SQLException {
-        String sql = "SELECT * FROM tarefas WHERE id = ?";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setInt(1, id);
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                if (resultSet.next()) {
-                    Tarefa tarefa = new Tarefa();
-                    tarefa.setId(resultSet.getInt("id"));
-                    tarefa.setTitulo(resultSet.getString("titulo"));
-                    tarefa.setDescricao(resultSet.getString("descricao"));
-                    tarefa.setStatus(StatusTarefa.valueOf(resultSet.getString("status")));
-                    tarefa.setDataInicio(resultSet.getDate("datainicio").toLocalDate());
-                    tarefa.setDataLimite(resultSet.getDate("datalimite").toLocalDate());
-                    return tarefa;
+    @Override
+    public void atualizarTarefa(Tarefa tarefa) {
+        try {
+            String comandoSQL = "UPDATE tarefas SET titulo = ?, descricao = ?, dataInicio = ?, dataLimite = ?, status = ?, dataConclusao = ? WHERE id = ?";
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(comandoSQL)) {
+                preparedStatement.setString(1, tarefa.getTitulo());
+                preparedStatement.setString(2, tarefa.getDescricao());
+                preparedStatement.setDate(3, java.sql.Date.valueOf(tarefa.getDataInicio()));
+                preparedStatement.setDate(4, java.sql.Date.valueOf(tarefa.getDataLimite()));
+                preparedStatement.setString(5, tarefa.getStatus().toString());
+
+                if (tarefa.getDataConclusao() != null) {
+                    preparedStatement.setDate(6, java.sql.Date.valueOf(tarefa.getDataConclusao()));
+                } else {
+                    preparedStatement.setNull(6, Types.NULL);
+                }
+
+                preparedStatement.setInt(7, tarefa.getId());
+
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void removerTarefa(int tarefaId) {
+        try {
+            String comandoSQL = "DELETE FROM tarefas WHERE id = ?";
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(comandoSQL)) {
+                preparedStatement.setInt(1, tarefaId);
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public List<Tarefa> buscarTodasTarefas() {
+        List<Tarefa> tarefas = new ArrayList<>();
+        try  {
+            String sql = "SELECT * FROM tarefas";
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                ResultSet tarefaDB = preparedStatement.executeQuery();
+
+                // Adiciona todas as tarefas do banco na lista de Tarefas.
+                while (tarefaDB.next()) {
+                    int id = tarefaDB.getInt("id");
+                    String titulo = tarefaDB.getString("titulo");
+                    String descricao = tarefaDB.getString("descricao");
+                    LocalDate dataInicio = LocalDate.parse(tarefaDB.getString("dataInicio"));
+                    LocalDate dataLimite = LocalDate.parse(tarefaDB.getString("dataLimite"));
+                    String dataConclusaoString = tarefaDB.getString("dataConclusao");
+                    LocalDate dataConclusao = (dataConclusaoString != null) ? LocalDate.parse(dataConclusaoString) : null;
+                    StatusTarefa status = StatusTarefa.valueOf(tarefaDB.getString("status"));
+
+                    // Cria a tarefa conforme a tarefa cadastrada no banco.
+                    Tarefa tarefa = new Tarefa(titulo, descricao, dataInicio, dataLimite);
+                    tarefa.setId(id);
+                    tarefa.setStatus(status);
+                    tarefa.setDataConclusao(dataConclusao);
+                    tarefas.add(tarefa);
                 }
             }
-        }
-        return null;
-    }
-
-    public List<Tarefa> listar() throws SQLException {
-        List<Tarefa> tarefas = new ArrayList<>();
-        String sql = "SELECT * FROM tarefas";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql);
-             ResultSet resultSet = preparedStatement.executeQuery()) {
-            while (resultSet.next()) {
-                Tarefa tarefa = new Tarefa();
-                tarefa.setId(resultSet.getInt("id"));
-                tarefa.setTitulo(resultSet.getString("titulo"));
-                tarefa.setDescricao(resultSet.getString("descricao"));
-                tarefa.setStatus(StatusTarefa.valueOf(resultSet.getString("status")));
-                tarefa.setDataInicio(resultSet.getDate("datainicio").toLocalDate());
-                tarefa.setDataLimite(resultSet.getDate("datalimite").toLocalDate());
-                tarefas.add(tarefa);
-            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return tarefas;
-    }
-
-    public void atualizar(Tarefa tarefa) throws SQLException {
-        String sql = "UPDATE tarefas SET titulo = ?, descricao = ?, status = ?, datainicio = ?, datalimite = ? WHERE id = ?";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setString(1, tarefa.getTitulo());
-            preparedStatement.setString(2, tarefa.getDescricao());
-            preparedStatement.setString(3, tarefa.getStatus().name());
-            preparedStatement.setDate(4, java.sql.Date.valueOf(tarefa.getDataInicio()));
-            preparedStatement.setDate(5, java.sql.Date.valueOf(tarefa.getDataLimite()));
-            preparedStatement.setInt(6, tarefa.getId());
-            preparedStatement.executeUpdate();
-        }
-    }
-
-    public void excluir(int id) throws SQLException {
-        String sql = "DELETE FROM tarefas WHERE id = ?";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setInt(1, id);
-            preparedStatement.executeUpdate();
-        }
     }
 }

@@ -1,26 +1,26 @@
 package com.krodrigues.models.services;
 
 import com.krodrigues.models.entities.Tarefa;
-import com.krodrigues.models.repository.RepositorioTarefa;
+import com.krodrigues.models.repository.TarefaDAO;
 
 import java.util.List;
 
 public class TarefaService {
-    private final RepositorioTarefa repositorioTarefa;
+    private final TarefaDAO tarefaDAO;
 
-    public TarefaService(RepositorioTarefa repositorioTarefa){
-        this.repositorioTarefa = repositorioTarefa;
+    public TarefaService(TarefaDAO tarefaDAO){
+        this.tarefaDAO = tarefaDAO;
     }
     public void adicionarTarefa(Tarefa tarefa){
-        repositorioTarefa.adicionarTarefa(tarefa);
+        tarefaDAO.adicionarTarefa(tarefa);
     }
     public void atualizarTarefa(Tarefa tarefa){
-        repositorioTarefa.atualizarTarefa(tarefa);
+        tarefaDAO.atualizarTarefa(tarefa);
     }
     public void removerTarefa(Tarefa tarefa){
-        repositorioTarefa.removerTarefa(tarefa.getId());
+        tarefaDAO.removerTarefa(tarefa.getId());
     }
     public List<Tarefa> buscarTodasTarefas(){
-        return repositorioTarefa.buscarTodasTarefas();
+        return tarefaDAO.buscarTodasTarefas();
     }
 }
