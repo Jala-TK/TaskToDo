@@ -20,6 +20,10 @@ public class Tarefa {
         this.dataConclusao = null;
     }
 
+    public Tarefa() {
+
+    }
+
     public String getTitulo() {
         return titulo;
     }
