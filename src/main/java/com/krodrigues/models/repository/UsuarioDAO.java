@@ -10,14 +10,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UsuarioDAO {
-    private Connection connection;
+    private final Connection connection;
 
     public UsuarioDAO(Connection connection) {
         this.connection = connection;
     }
 
-    public void inserir(Usuario usuario) throws SQLException {
-        String sql = "INSERT INTO usuarios (username, nome, sobrenome, email, password) VALUES (?, ?, ?, ?, ?)";
+    private static Usuario getUsuario(ResultSet resultSet) throws SQLException {
+        Usuario usuario = new Usuario();
+        usuario.setUsername(resultSet.getString("username"));
+        usuario.setNome(resultSet.getString("nome"));
+        usuario.setSobrenome(resultSet.getString("sobrenome"));
+        usuario.setEmail(resultSet.getString("email"));
+        usuario.setPassword(resultSet.getString("password"));
+        return usuario;
+    }
+
+    private void setUsuario(Usuario usuario, String sql) throws SQLException {
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, usuario.getUsername());
             preparedStatement.setString(2, usuario.getNome());
@@ -28,19 +37,20 @@ public class UsuarioDAO {
         }
     }
 
+    public void inserir(Usuario usuario) throws SQLException {
+        String sql = "INSERT INTO usuarios (username, nome, sobrenome, email, password) VALUES (?, ?, ?, ?, ?)";
+        setUsuario(usuario, sql);
+    }
+
+
+
     public Usuario buscarPorUsername(String username) throws SQLException {
         String sql = "SELECT * FROM usuarios WHERE username = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, username);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
-                    Usuario usuario = new Usuario();
-                    usuario.setUsername(resultSet.getString("username"));
-                    usuario.setNome(resultSet.getString("nome"));
-                    usuario.setSobrenome(resultSet.getString("sobrenome"));
-                    usuario.setEmail(resultSet.getString("email"));
-                    usuario.setPassword(resultSet.getString("password"));
-                    return usuario;
+                    return getUsuario(resultSet);
                 }
             }
         }
@@ -53,12 +63,7 @@ public class UsuarioDAO {
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql);
              ResultSet resultSet = preparedStatement.executeQuery()) {
             while (resultSet.next()) {
-                Usuario usuario = new Usuario();
-                usuario.setUsername(resultSet.getString("username"));
-                usuario.setNome(resultSet.getString("nome"));
-                usuario.setSobrenome(resultSet.getString("sobrenome"));
-                usuario.setEmail(resultSet.getString("email"));
-                usuario.setPassword(resultSet.getString("password"));
+                Usuario usuario = getUsuario(resultSet);
                 usuarios.add(usuario);
             }
         }
@@ -67,14 +72,7 @@ public class UsuarioDAO {
 
     public void atualizar(Usuario usuario) throws SQLException {
         String sql = "UPDATE usuarios SET nome = ?, sobrenome = ?, email = ?, password = ? WHERE username = ?";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setString(1, usuario.getNome());
-            preparedStatement.setString(2, usuario.getSobrenome());
-            preparedStatement.setString(3, usuario.getEmail());
-            preparedStatement.setString(4, usuario.getPassword());
-            preparedStatement.setString(5, usuario.getUsername());
-            preparedStatement.executeUpdate();
-        }
+        setUsuario(usuario, sql);
     }
 
     public void excluir(String username) throws SQLException {

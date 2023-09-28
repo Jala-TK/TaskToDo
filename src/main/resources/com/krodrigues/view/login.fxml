@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.krodrigues.controller.LoginController">
+    <GridPane maxHeight="1080.0" maxWidth="1920.0" prefHeight="720.0" prefWidth="1280.0">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+        <GridPane GridPane.columnIndex="1">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints maxHeight="355.0" minHeight="10.0" prefHeight="186.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="400.0" minHeight="10.0" prefHeight="125.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="400.0" minHeight="10.0" prefHeight="125.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="335.0" minHeight="10.0" prefHeight="276.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <Label alignment="CENTER" contentDisplay="CENTER" text="Login" textOverrun="WORD_ELLIPSIS" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                <GridPane.margin>
+                    <Insets top="30.0" />
+                </GridPane.margin>
+                <font>
+                    <Font size="24.0" />
+                </font>
+            </Label>
+         <Label alignment="CENTER" contentDisplay="CENTER" text="Username" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
+            <font>
+               <Font size="20.0" />
+            </font>
+            <padding>
+               <Insets top="20.0" />
+            </padding>
+         </Label>
+         <TextField fx:id="username" prefHeight="40.0" prefWidth="386.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+            <tooltip>
+               <Tooltip text="Insira seu username. Obrigatório." />
+            </tooltip>
+            <GridPane.margin>
+               <Insets />
+            </GridPane.margin>
+         </TextField>
+            <Label alignment="CENTER" contentDisplay="CENTER" text="Password" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
+                <font>
+                    <Font size="20.0" />
+                </font>
+                <GridPane.margin>
+                    <Insets top="10.0" />
+                </GridPane.margin>
+            </Label>
+         <PasswordField fx:id="password" prefHeight="40.0" prefWidth="386.0" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+            <tooltip>
+               <Tooltip text="Insira um username, ele deve ser único. Obrigatório." />
+            </tooltip>
+         </PasswordField>
+            <GridPane prefHeight="392.0" prefWidth="427.0" GridPane.rowIndex="3">
+                <columnConstraints>
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints minHeight="10.0" prefHeight="30.0"/>
+                    <RowConstraints minHeight="10.0" prefHeight="30.0"/>
+                </rowConstraints>
+                <Button fx:id="buttonCadastrar" contentDisplay="TOP" mnemonicParsing="false" onAction="#abrirCadastro"
+                        prefHeight="44.0" prefWidth="151.0" text="Cadastrar" GridPane.halignment="CENTER"
+                        GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                    <font>
+                        <Font size="20.0"/>
+                    </font>
+                    <tooltip>
+                        <Tooltip text="Clique para abrir o formulário de cadastro."/>
+                    </tooltip>
+                </Button>
+                <Button fx:id="buttonEntrar" contentDisplay="TOP" mnemonicParsing="false" onAction="#entrar"
+                        prefHeight="44.0" prefWidth="151.0" text="Login" GridPane.columnIndex="1"
+                        GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                    <font>
+                        <Font size="20.0"/>
+                    </font>
+                    <tooltip>
+                        <Tooltip text="Clique para salvar."/>
+                    </tooltip>
+                </Button>
+            </GridPane>
+         <GridPane.margin>
+            <Insets />
+         </GridPane.margin>
+
+        </GridPane>
+    </GridPane>
+</AnchorPane>

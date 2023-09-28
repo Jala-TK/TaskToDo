@@ -1,5 +1,6 @@
 package com.krodrigues.controller;
 
+import com.krodrigues.models.repository.TarefaDAO;
 import com.krodrigues.models.services.TarefaService;
 import com.krodrigues.models.entities.StatusTarefa;
 import com.krodrigues.models.entities.Tarefa;
@@ -14,6 +15,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 public class TabelaController {
@@ -46,10 +48,8 @@ public class TabelaController {
 
     private TarefaService tarefaService;
 
-    // Setter para injetar o serviço de tarefas.
-    public void setTarefaService(TarefaService tarefaService) {
-        this.tarefaService = tarefaService;
-        atualizarTabela();
+    public TabelaController() throws SQLException {
+        this.tarefaService = new TarefaService(new TarefaDAO());
     }
 
     // Injeção de dependência

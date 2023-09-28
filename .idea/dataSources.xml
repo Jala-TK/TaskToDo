@@ -8,12 +8,5 @@
       <jdbc-url>jdbc:postgresql://ep-little-brook-00828126.us-east-1.postgres.vercel-storage.com:5432/verceldb</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="verceldb@ep-little-brook-00828126.us-east-1.postgres.vercel-storage.com" uuid="0f0f200d-644c-4b39-9942-8bb244fc47ce">
-      <driver-ref>postgresql</driver-ref>
-      <synchronize>true</synchronize>
-      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://ep-little-brook-00828126.us-east-1.postgres.vercel-storage.com:5432/verceldb</jdbc-url>
-      <working-dir>$ProjectFileDir$</working-dir>
-    </data-source>
   </component>
 </project>

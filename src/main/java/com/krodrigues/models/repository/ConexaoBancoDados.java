@@ -2,7 +2,10 @@ package com.krodrigues.models.repository;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+
 import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 public class ConexaoBancoDados {
     private static final HikariConfig config = new HikariConfig();
@@ -17,5 +20,9 @@ public class ConexaoBancoDados {
 
     public static DataSource getDataSource() {
         return ds;
+    }
+
+    public static Connection getConexao() throws SQLException {
+        return ds.getConnection();
     }
 }
