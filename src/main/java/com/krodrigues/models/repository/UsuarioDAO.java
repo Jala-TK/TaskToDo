@@ -62,9 +62,6 @@ public class UsuarioDAO {
             preparedStatement.setString(5, usuario.getPassword());
             preparedStatement.executeUpdate();
         }
-
-        // Após a atualização, você pode forçar a atualização da materialized view
-        // Certifique-se de que o nome da materialized view esteja correto
         String refreshSql = "REFRESH MATERIALIZED VIEW usuario_login";
         try (PreparedStatement refreshStatement = connection.prepareStatement(refreshSql)) {
             refreshStatement.executeUpdate();
@@ -112,7 +109,6 @@ public class UsuarioDAO {
 
     public boolean EmailEmUso(String email) {
         try {
-            // Substitua "suaConsultaSql" pela consulta SQL adequada para verificar se o email já está em uso
             String contain = "SELECT COUNT(*) FROM usuarios WHERE email = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(contain);
             preparedStatement.setString(1, email);
