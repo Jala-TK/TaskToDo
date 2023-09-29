@@ -25,16 +25,6 @@ public class Main extends Application {
         FXMLLoader loginLoader = new FXMLLoader(getClass().getResource("/com/krodrigues/view/Login.fxml"));
         AnchorPane loginRoot = loginLoader.load();
 
-        // Configura conexão com tarefas
-        Connection conexao = ConexaoBancoDados.getDataSource().getConnection();
-        TarefaDAO tarefaDAO = new TarefaDAO();
-        TarefaService tarefaService = new TarefaService(tarefaDAO);
-
-        // Configura o controlador de login e injeta o serviço de usuário
-        LoginController loginController = loginLoader.getController();
-        UsuarioService usuarioService = new UsuarioService(new UsuarioDAO(conexao));
-        loginController.setUsuarioService(usuarioService); // Injeção de dependência
-
         // Crie uma cena com o layout de login
         Scene loginScene = new Scene(loginRoot);
 

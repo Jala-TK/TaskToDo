@@ -12,14 +12,14 @@ import java.util.List;
 public class UsuarioDAO {
     private final Connection connection;
 
-    public UsuarioDAO(Connection connection) {
-        this.connection = connection;
+    public UsuarioDAO() throws SQLException {
+        this.connection = ConexaoBancoDados.getConexao();
     }
 
     public Usuario buscarPorUsername(String username) throws SQLException {
         String sql = "SELECT * FROM public.usuario_login WHERE username = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setString(1, username);
+            preparedStatement.setString(1, username.toLowerCase());
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
                     return getUsuarioCompleto(resultSet.getString("username"));
@@ -32,7 +32,7 @@ public class UsuarioDAO {
     private Usuario getUsuarioCompleto(String username) throws SQLException {
         String sql = "SELECT * FROM usuarios WHERE username = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setString(1, username);
+            preparedStatement.setString(1, username.toLowerCase());
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
                     return getUsuario(resultSet);
@@ -55,7 +55,7 @@ public class UsuarioDAO {
 
     private void setUsuario(Usuario usuario, String sql) throws SQLException {
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setString(1, usuario.getUsername());
+            preparedStatement.setString(1, usuario.getUsername().toLowerCase());
             preparedStatement.setString(2, usuario.getNome());
             preparedStatement.setString(3, usuario.getSobrenome());
             preparedStatement.setString(4, usuario.getEmail());
@@ -94,7 +94,7 @@ public class UsuarioDAO {
         try {
             String contain = "SELECT COUNT(*) FROM usuarios WHERE username = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(contain);
-            preparedStatement.setString(1, username);
+            preparedStatement.setString(1, username.toLowerCase());
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {

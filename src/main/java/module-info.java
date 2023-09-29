@@ -14,7 +14,6 @@ module com.krodrigues {
     requires eu.hansolo.toolbox;
     requires eu.hansolo.tilesfx;
     requires java.sql;
-    requires org.xerial.sqlitejdbc;
     requires com.zaxxer.hikari;
     requires jbcrypt;
 

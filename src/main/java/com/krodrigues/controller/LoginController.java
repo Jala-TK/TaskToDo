@@ -1,5 +1,8 @@
 package com.krodrigues.controller;
 
+import com.krodrigues.models.repository.TarefaDAO;
+import com.krodrigues.models.repository.UsuarioDAO;
+import com.krodrigues.models.services.TarefaService;
 import com.krodrigues.models.services.UsuarioService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -33,9 +36,9 @@ public class LoginController {
 
     private UsuarioService usuarioService;
 
-    public LoginController() {
+    public LoginController() throws SQLException {
+        this.usuarioService = new UsuarioService(new UsuarioDAO());
     }
-
     @FXML
     public void entrar(ActionEvent actionEvent) throws SQLException {
         String user = username.getText();
