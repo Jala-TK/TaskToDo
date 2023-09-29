@@ -1,22 +1,32 @@
 package com.krodrigues.controller;
 
+import com.krodrigues.models.entities.Usuario;
 import com.krodrigues.models.repository.TarefaDAO;
 import com.krodrigues.models.services.TarefaService;
 import com.krodrigues.models.entities.StatusTarefa;
 import com.krodrigues.models.entities.Tarefa;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Objects;
 
 public class TabelaController {
 
@@ -25,6 +35,10 @@ public class TabelaController {
     public Button buttonAdd;
     public Button buttonRemove;
     public Label labStatus;
+    public Label labFirstName;
+    public Label labLastName;
+    public Button buttonLogout;
+    public Label labDateNow;
     @FXML
     private TableView<Tarefa> tableView;
 
@@ -46,7 +60,8 @@ public class TabelaController {
     @FXML
     private TableColumn<Tarefa, String> colunaDtConc;
 
-    private TarefaService tarefaService;
+
+    private final TarefaService tarefaService;
 
     public TabelaController() throws SQLException {
         this.tarefaService = new TarefaService(new TarefaDAO());
@@ -62,12 +77,34 @@ public class TabelaController {
         colunaDtLim.setCellValueFactory(new PropertyValueFactory<>("dataLimite"));
         colunaDtConc.setCellValueFactory(new PropertyValueFactory<>("dataConclusao"));
 
+        Usuario usuarioLogado = UsuarioLogado.getUsuario();
+        labFirstName.setText(usuarioLogado.getNome());
+        labLastName.setText(usuarioLogado.getSobrenome());
+
+
+        // Configuração para atualizar constantemente o campo labDateNow
+        Duration duration = Duration.seconds(1); // Atualizar a cada segundo
+        KeyFrame keyFrame = new KeyFrame(duration, (EventHandler<ActionEvent>) actionEvent -> atualizarDataHoraAtual());
+        // Variável para o Timeline
+        Timeline clock = new Timeline(keyFrame);
+        clock.setCycleCount(Timeline.INDEFINITE); // Executar indefinidamente
+        clock.play();
+
         // Configuração do menu de contexto.
         tableView.setContextMenu(createContextMenu());
 
         // Configuração do evento de clique duplo.
         configurarEventoCliqueDuplo();
+        atualizarTabela();
 
+    }
+
+    // Método para atualizar o campo labDateNow
+    private void atualizarDataHoraAtual() {
+        LocalDateTime dataHoraAtual = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"); // Use o formato desejado
+        String dataHoraFormatada = dataHoraAtual.format(formatter);
+        labDateNow.setText(dataHoraFormatada);
     }
 
     private ContextMenu createContextMenu() {
@@ -133,6 +170,8 @@ public class TabelaController {
 
             Scene editScene = new Scene(editRoot);
             editStage.setScene(editScene);
+            Image icone = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/icone.png")));
+            editStage.getIcons().add(icone);
 
             editStage.showAndWait();
             // Exibe a janela e aguarda até que ela seja fechada
@@ -183,6 +222,8 @@ public class TabelaController {
 
         Scene editScene = new Scene(addRoot);
         addStage.setScene(editScene);
+        Image icone = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/icone.png")));
+        addStage.getIcons().add(icone);
 
         addStage.showAndWait();
         // Exibe a janela e aguarda até que ela seja fechada
@@ -202,5 +243,34 @@ public class TabelaController {
 
         // Atualiza a barra de status conforme a porcentagem de tarefas concluídas.
     }
+
+    @FXML
+    private void deslogar() {
+        // Limpa as informações do usuário logado
+        UsuarioLogado.desconectar();
+
+        // Fecha a janela após salvar o usuário
+        Stage stage = (Stage) buttonLogout.getScene().getWindow();
+        stage.close();
+        // Abre a tela de login
+        try {
+            Stage loginStage = new Stage();
+            loginStage.setTitle("Login");
+
+            FXMLLoader loginLoader = new FXMLLoader(getClass().getResource("/com/krodrigues/view/login.fxml"));
+            Parent root = loginLoader.load();
+
+            Scene loginScene = new Scene(root);
+            loginStage.setScene(loginScene);
+            Image icone = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/icone.png")));
+            loginStage.getIcons().add(icone);
+
+            loginStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
 }

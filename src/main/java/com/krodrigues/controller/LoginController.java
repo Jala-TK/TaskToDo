@@ -1,8 +1,5 @@
 package com.krodrigues.controller;
 
-import com.krodrigues.models.entities.Tarefa;
-import com.krodrigues.models.repository.TarefaDAO;
-import com.krodrigues.models.services.TarefaService;
 import com.krodrigues.models.services.UsuarioService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,10 +10,12 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Objects;
 
 public class LoginController {
 
@@ -52,19 +51,18 @@ public class LoginController {
             return;
         }
 
-        // Verifique as credenciais do usuário (você pode implementar esta lógica)
         boolean autenticado = usuarioService.autenticarUsuario(user, userPassword);
 
         if (autenticado) {
             UsuarioLogado.setUsuario(usuarioService.buscarUsuario(user));
 
-            // Carregue a próxima cena (Tabela.fxml)
             try {
                 Stage tabelaStage = new Stage();
                 tabelaStage.setTitle("Tarefas");
 
                 FXMLLoader fxmlLoader = new FXMLLoader();
                 fxmlLoader.setLocation(getClass().getResource("/com/krodrigues/view/tabela-view.fxml"));
+
 
                 TabelaController tabelaController = new TabelaController();
 
@@ -74,9 +72,14 @@ public class LoginController {
                 fxmlLoader.getController();
 
                 Scene tabelaScene = new Scene(root);
+                Image icone = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/icone.png")));
+                tabelaStage.getIcons().add(icone);
                 tabelaStage.setScene(tabelaScene);
 
-                tabelaStage.showAndWait();
+                tabelaStage.show();
+                Stage stage = (Stage) buttonEntrar.getScene().getWindow();
+                stage.close();
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -106,8 +109,12 @@ public class LoginController {
 
         Scene editScene = new Scene(addRoot);
         cadastroStage.setScene(editScene);
+        Image icone = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/icone.png")));
+        cadastroStage.getIcons().add(icone);
 
-        cadastroStage.showAndWait();
+        cadastroStage.show();
+        Stage stage = (Stage) buttonEntrar.getScene().getWindow();
+        stage.close();
     }
 
 

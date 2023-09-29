@@ -139,6 +139,13 @@
             <version>4.0.3</version> <!-- Verifique a versão mais recente no repositório Maven -->
         </dependency>
 
+        <dependency>
+            <groupId>org.mindrot</groupId>
+            <artifactId>jbcrypt</artifactId>
+            <version>0.4</version>
+        </dependency>
+
+
     </dependencies>
 
     <build>

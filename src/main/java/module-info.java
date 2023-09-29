@@ -16,6 +16,7 @@ module com.krodrigues {
     requires java.sql;
     requires org.xerial.sqlitejdbc;
     requires com.zaxxer.hikari;
+    requires jbcrypt;
 
     opens com.krodrigues.controller to javafx.fxml;
 

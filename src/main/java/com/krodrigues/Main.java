@@ -1,19 +1,21 @@
 package com.krodrigues;
 
 import com.krodrigues.controller.LoginController;
-import com.krodrigues.controller.TabelaController;
 import com.krodrigues.models.repository.ConexaoBancoDados;
 import com.krodrigues.models.repository.TarefaDAO;
 import com.krodrigues.models.repository.UsuarioDAO;
 import com.krodrigues.models.services.TarefaService;
-import com.krodrigues.models.services.UsuarioService; // Importe o serviço de usuário
+import com.krodrigues.models.services.UsuarioService;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.scene.image.Image;
+
 
 import java.sql.Connection;
+import java.util.Objects;
 
 public class Main extends Application {
 
@@ -38,6 +40,10 @@ public class Main extends Application {
 
         // Configure o estágio principal para exibir a cena de login
         stage.setTitle("Login - Kainan Rodrigues");
+
+        Image icone = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/icone.png")));
+        stage.getIcons().add(icone);
+
         stage.setScene(loginScene);
         stage.show();
     }

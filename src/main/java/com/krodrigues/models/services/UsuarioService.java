@@ -2,6 +2,7 @@ package com.krodrigues.models.services;
 
 import com.krodrigues.models.entities.Usuario;
 import com.krodrigues.models.repository.UsuarioDAO;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.SQLException;
 
@@ -17,7 +18,11 @@ public class UsuarioService {
 
     public boolean autenticarUsuario(String username, String senha) throws SQLException {
         Usuario usuario = usuarioDAO.buscarPorUsername(username);
-        return usuario != null && usuario.getPassword().equals(senha);
+        if (usuario != null) {
+            return BCrypt.checkpw(senha, usuario.getPassword());
+        }
+
+        return false;
     }
 
     public void atualizarUsuario(Usuario usuario) throws SQLException {
@@ -28,5 +33,15 @@ public class UsuarioService {
     }
     public Usuario buscarUsuario(String username) throws SQLException {
         return usuarioDAO.buscarPorUsername(username);
+    }
+
+    // Verifica se o nome de usuário já está em uso
+    public boolean isUsernameEmUso(String username) {
+        return usuarioDAO.UsernameEmUso(username);
+    }
+
+    // Verifica se o email já está em uso
+    public boolean isEmailEmUso(String email) {
+        return usuarioDAO.EmailEmUso(email);
     }
 }

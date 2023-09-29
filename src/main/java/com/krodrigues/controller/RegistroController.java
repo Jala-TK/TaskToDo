@@ -3,14 +3,22 @@ package com.krodrigues.controller;
 import com.krodrigues.models.services.UsuarioService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import com.krodrigues.models.entities.Usuario;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Objects;
+
+import org.mindrot.jbcrypt.BCrypt;
 
 public class RegistroController {
 
@@ -44,7 +52,8 @@ public class RegistroController {
         String sobrenome = sobrenomeUsuario.getText();
         String user = username.getText();
         String userEmail = email.getText();
-        String userPassword = password.getText();
+        String userPassword = BCrypt.hashpw(password.getText(), BCrypt.gensalt());
+
 
         if (nome.isEmpty() || sobrenome.isEmpty() || user.isEmpty() || userEmail.isEmpty() || userPassword.isEmpty()) {
             // Mostra um pop-up de erro ao usuário
@@ -52,6 +61,17 @@ public class RegistroController {
             erro.setTitle("Erro");
             erro.setHeaderText("Campos obrigatórios não preenchidos");
             erro.setContentText("Por favor, preencha todos os campos obrigatórios.");
+            erro.showAndWait();
+            return;
+        }
+
+        // Verifica se o nome de usuário ou email já estão em uso
+        if (usuarioService.isUsernameEmUso(user) || usuarioService.isEmailEmUso(userEmail)) {
+            // Mostra um pop-up de erro ao usuário
+            Alert erro = new Alert(Alert.AlertType.ERROR);
+            erro.setTitle("Erro");
+            erro.setHeaderText("Nome de usuário ou email já estão em uso");
+            erro.setContentText("Por favor, escolha um nome de usuário e email diferentes.");
             erro.showAndWait();
             return;
         }
@@ -70,8 +90,32 @@ public class RegistroController {
             // Fecha a janela após salvar o usuário
             Stage stage = (Stage) buttonSalvar.getScene().getWindow();
             stage.close();
+
+            // Abre a tela de login após o registro bem-sucedido
+            abrirTelaLogin();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
+    private void abrirTelaLogin() {
+        try {
+            Stage loginStage = new Stage();
+            loginStage.setTitle("Login");
+
+            FXMLLoader loginLoader = new FXMLLoader(getClass().getResource("/com/krodrigues/view/login.fxml"));
+
+            Parent root = loginLoader.load();
+
+            Scene loginScene = new Scene(root);
+            loginStage.setScene(loginScene);
+            Image icone = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/icone.png")));
+            loginStage.getIcons().add(icone);
+
+            loginStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
