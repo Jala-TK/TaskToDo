@@ -9,9 +9,18 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Um Data Access Object (DAO) para realizar operações relacionadas a tarefas no
+ * banco de dados.
+ */
 public class TarefaDAO {
     private final Connection connection;
 
+    /**
+     * Construtor da classe que inicializa a conexão com o banco de dados.
+     *
+     * @throws SQLException se ocorrer um erro durante a obtenção da conexão.
+     */
     public TarefaDAO() throws SQLException {
         this.connection = ConexaoBancoDados.getConexao();
     }
@@ -24,6 +33,11 @@ public class TarefaDAO {
         preparedStatement.setString(5, tarefa.getStatus().toString());
     }
 
+    /**
+     * Adiciona uma nova tarefa ao banco de dados.
+     *
+     * @param tarefa A tarefa a ser adicionada.
+     */
     public void adicionarTarefa(Tarefa tarefa) {
         try (Connection connection = ConexaoBancoDados.getConexao()) {
             // Inicia a transação
@@ -33,8 +47,10 @@ public class TarefaDAO {
                 String comandoSQLTarefa = "INSERT INTO tarefas (titulo, descricao, dataInicio, dataLimite, status) VALUES (?, ?, ?, ?, ?)";
                 String comandoSQLAssociacao = "INSERT INTO tarefas_usuarios (idtarefas, username_usuario) VALUES (?, ?)";
 
-                try (PreparedStatement preparedStatementTarefa = connection.prepareStatement(comandoSQLTarefa, Statement.RETURN_GENERATED_KEYS);
-                     PreparedStatement preparedStatementAssociacao = connection.prepareStatement(comandoSQLAssociacao)) {
+                try (PreparedStatement preparedStatementTarefa = connection.prepareStatement(comandoSQLTarefa,
+                        Statement.RETURN_GENERATED_KEYS);
+                        PreparedStatement preparedStatementAssociacao = connection
+                                .prepareStatement(comandoSQLAssociacao)) {
 
                     // Insere na tabela tarefas
                     setTarefa(tarefa, preparedStatementTarefa);
@@ -71,9 +87,11 @@ public class TarefaDAO {
         }
     }
 
-
-
-
+    /**
+     * Atualiza os detalhes de uma tarefa existente no banco de dados.
+     *
+     * @param tarefa A tarefa com as informações atualizadas.
+     */
     public void atualizarTarefa(Tarefa tarefa) {
         try {
             String comandoSQL = "UPDATE tarefas SET titulo = ?, descricao = ?, dataInicio = ?, dataLimite = ?, status = ?, dataConclusao = ? WHERE id = ?";
@@ -96,19 +114,11 @@ public class TarefaDAO {
         }
     }
 
-
-//    public void removerTarefa(int tarefaId) {
-//        try {
-//            String comandoSQL = "DELETE FROM tarefas WHERE id = ?";
-//
-//            try (PreparedStatement preparedStatement = connection.prepareStatement(comandoSQL)) {
-//                preparedStatement.setInt(1, tarefaId);
-//                preparedStatement.executeUpdate();
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//    }
+    /**
+     * Remove uma tarefa do banco de dados.
+     *
+     * @param tarefaId O ID da tarefa a ser removida.
+     */
     public void removerTarefa(int tarefaId) {
         try {
             // Remova a associação da tabela tarefa_usuarios
@@ -129,8 +139,11 @@ public class TarefaDAO {
         }
     }
 
-
-
+    /**
+     * Retorna uma lista de todas as tarefas associadas ao usuário logado.
+     *
+     * @return Uma lista de tarefas do usuário logado.
+     */
     public List<Tarefa> buscarTodasTarefas() {
         List<Tarefa> tarefas = new ArrayList<>();
         if (UsuarioLogado.estaLogado()) {
@@ -150,7 +163,8 @@ public class TarefaDAO {
                         LocalDate dataInicio = LocalDate.parse(tarefaDB.getString("dataInicio"));
                         LocalDate dataLimite = LocalDate.parse(tarefaDB.getString("dataLimite"));
                         String dataConclusaoString = tarefaDB.getString("dataConclusao");
-                        LocalDate dataConclusao = (dataConclusaoString != null) ? LocalDate.parse(dataConclusaoString) : null;
+                        LocalDate dataConclusao = (dataConclusaoString != null) ? LocalDate.parse(dataConclusaoString)
+                                : null;
                         StatusTarefa status = StatusTarefa.valueOf(tarefaDB.getString("status"));
 
                         // Cria a tarefa conforme a tarefa cadastrada no banco.

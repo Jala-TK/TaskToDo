@@ -28,46 +28,116 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Esta classe é responsável por controlar a interface da tabela de tarefas e
+ * suas ações.
+ */
 public class TabelaController {
 
+    /**
+     * Barra de progresso que indica o status de conclusão das tarefas.
+     */
     public ProgressBar progressStatusBar;
+
+    /**
+     * Botão para editar a tarefa selecionada.
+     */
     public Button buttonEdit;
+
+    /**
+     * Botão para adicionar uma nova tarefa.
+     */
     public Button buttonAdd;
+
+    /**
+     * Botão para remover a tarefa selecionada.
+     */
     public Button buttonRemove;
+
+    /**
+     * Rótulo que exibe o status.
+     */
     public Label labStatus;
+
+    /**
+     * Rótulo que exibe o primeiro nome do usuário logado.
+     */
     public Label labFirstName;
+
+    /**
+     * Rótulo que exibe o sobrenome do usuário logado.
+     */
     public Label labLastName;
+
+    /**
+     * Botão para fazer logout do sistema.
+     */
     public Button buttonLogout;
+
+    /**
+     * Rótulo que exibe a data e hora atual.
+     */
     public Label labDateNow;
+
+    /**
+     * Tabela que exibe as tarefas.
+     */
     @FXML
     private TableView<Tarefa> tableView;
 
+    /**
+     * Coluna que exibe o nome da tarefa.
+     */
     @FXML
     private TableColumn<Tarefa, String> colunaNome;
 
+    /**
+     * Coluna que exibe a descrição da tarefa.
+     */
     @FXML
     private TableColumn<Tarefa, String> colunaDesc;
 
+    /**
+     * Coluna que exibe o status da tarefa.
+     */
     @FXML
     private TableColumn<Tarefa, StatusTarefa> colunaStatus;
 
+    /**
+     * Coluna que exibe a data de início da tarefa.
+     */
     @FXML
     private TableColumn<Tarefa, String> colunaDtIni;
 
+    /**
+     * Coluna que exibe a data limite da tarefa.
+     */
     @FXML
     private TableColumn<Tarefa, String> colunaDtLim;
 
+    /**
+     * Coluna que exibe a data de conclusão da tarefa.
+     */
     @FXML
     private TableColumn<Tarefa, String> colunaDtConc;
 
-
+    /**
+     * Serviço responsável por gerenciar as operações relacionadas às tarefas.
+     */
     private final TarefaService tarefaService;
 
+    /**
+     * Construtor da classe que inicializa o serviço de tarefas.
+     *
+     * @throws SQLException Se ocorrer um erro de SQL.
+     */
     public TabelaController() throws SQLException {
         this.tarefaService = new TarefaService(new TarefaDAO());
     }
 
-    // Injeção de dependência
+    /**
+     * Método de inicialização chamado quando a interface é carregada.
+     */
     public void initialize() {
         // Configuração das colunas da tabela.
         colunaNome.setCellValueFactory(new PropertyValueFactory<>("titulo"));
@@ -80,7 +150,6 @@ public class TabelaController {
         Usuario usuarioLogado = UsuarioLogado.getUsuario();
         labFirstName.setText(usuarioLogado.getNome());
         labLastName.setText(usuarioLogado.getSobrenome());
-
 
         // Configuração para atualizar constantemente o campo labDateNow
         Duration duration = Duration.seconds(1); // Atualizar a cada segundo
@@ -178,7 +247,6 @@ public class TabelaController {
         }
     }
 
-
     @FXML
     private void excluirTarefaSelecionada() {
         Tarefa tarefaSelecionada = tableView.getSelectionModel().getSelectedItem();
@@ -270,7 +338,5 @@ public class TabelaController {
             e.printStackTrace();
         }
     }
-
-
 
 }

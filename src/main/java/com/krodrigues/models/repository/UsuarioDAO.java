@@ -6,16 +6,30 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
+/**
+ * Um Data Access Object (DAO) para realizar operações relacionadas a usuários
+ * no banco de dados.
+ */
 public class UsuarioDAO {
     private final Connection connection;
 
+    /**
+     * Construtor da classe que inicializa a conexão com o banco de dados.
+     *
+     * @throws SQLException se ocorrer um erro durante a obtenção da conexão.
+     */
     public UsuarioDAO() throws SQLException {
         this.connection = ConexaoBancoDados.getConexao();
     }
 
+    /**
+     * Busca um usuário pelo nome de usuário.
+     *
+     * @param username O nome de usuário a ser pesquisado.
+     * @return O usuário encontrado ou null se não for encontrado.
+     * @throws SQLException se ocorrer um erro durante a consulta ao banco de dados.
+     */
     public Usuario buscarPorUsername(String username) throws SQLException {
         String sql = "SELECT * FROM public.usuario_login WHERE username = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -52,7 +66,6 @@ public class UsuarioDAO {
         return usuario;
     }
 
-
     private void setUsuario(Usuario usuario, String sql) throws SQLException {
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, usuario.getUsername().toLowerCase());
@@ -72,7 +85,6 @@ public class UsuarioDAO {
         String sql = "INSERT INTO usuarios (username, nome, sobrenome, email, password) VALUES (?, ?, ?, ?, ?)";
         setUsuario(usuario, sql);
     }
-
 
     public void atualizar(Usuario usuario) throws SQLException {
         String sql = "UPDATE usuarios SET nome = ?, sobrenome = ?, email = ?, password = ? WHERE username = ?";

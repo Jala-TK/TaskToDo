@@ -20,6 +20,9 @@ import java.util.Objects;
 
 import org.mindrot.jbcrypt.BCrypt;
 
+/**
+ * Esta classe controla o registro de novos usuários no sistema.
+ */
 public class RegistroController {
 
     @FXML
@@ -42,10 +45,21 @@ public class RegistroController {
 
     private final UsuarioService usuarioService;
 
+    /**
+     * Construtor que recebe um serviço de usuário para gerenciar o registro.
+     *
+     * @param usuarioService O serviço de usuário.
+     */
     public RegistroController(UsuarioService usuarioService) {
         this.usuarioService = usuarioService;
     }
 
+    /**
+     * Método chamado quando o botão "Salvar" é clicado para registrar um novo
+     * usuário.
+     *
+     * @param actionEvent O evento de ação associado ao clique do botão.
+     */
     @FXML
     public void salvarUsuario(ActionEvent actionEvent) {
         String nome = nomeUsuario.getText();
@@ -53,7 +67,6 @@ public class RegistroController {
         String user = username.getText();
         String userEmail = email.getText();
         String userPassword = BCrypt.hashpw(password.getText(), BCrypt.gensalt());
-
 
         if (nome.isEmpty() || sobrenome.isEmpty() || user.isEmpty() || userEmail.isEmpty() || userPassword.isEmpty()) {
             // Mostra um pop-up de erro ao usuário
@@ -98,6 +111,9 @@ public class RegistroController {
         }
     }
 
+    /**
+     * Abre a tela de login após o registro bem-sucedido.
+     */
     private void abrirTelaLogin() {
         try {
             Stage loginStage = new Stage();

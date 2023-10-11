@@ -20,6 +20,9 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Objects;
 
+/**
+ * Esta classe controla a interface de login e as ações relacionadas a ela.
+ */
 public class LoginController {
 
     @FXML
@@ -36,9 +39,21 @@ public class LoginController {
 
     private UsuarioService usuarioService;
 
+    /**
+     * Construtor que inicializa o serviço de usuário.
+     *
+     * @throws SQLException Se ocorrer um erro de SQL.
+     */
     public LoginController() throws SQLException {
         this.usuarioService = new UsuarioService(new UsuarioDAO());
     }
+
+    /**
+     * Método chamado quando o botão "Entrar" é clicado para autenticar o usuário.
+     *
+     * @param actionEvent O evento de ação associado ao clique do botão.
+     * @throws SQLException Se ocorrer um erro de SQL.
+     */
     @FXML
     public void entrar(ActionEvent actionEvent) throws SQLException {
         String user = username.getText();
@@ -65,7 +80,6 @@ public class LoginController {
 
                 FXMLLoader fxmlLoader = new FXMLLoader();
                 fxmlLoader.setLocation(getClass().getResource("/com/krodrigues/view/tabela-view.fxml"));
-
 
                 TabelaController tabelaController = new TabelaController();
 
@@ -96,6 +110,13 @@ public class LoginController {
         }
     }
 
+    /**
+     * Método chamado quando o botão "Cadastrar" é clicado para abrir a tela de
+     * registro.
+     *
+     * @param actionEvent O evento de ação associado ao clique do botão.
+     * @throws IOException Se ocorrer um erro de entrada/saída.
+     */
     @FXML
     public void abrirCadastro(ActionEvent actionEvent) throws IOException {
         Stage cadastroStage = new Stage();
@@ -120,8 +141,11 @@ public class LoginController {
         stage.close();
     }
 
-
-
+    /**
+     * Define o serviço de usuário.
+     *
+     * @param usuarioService O serviço de usuário a ser definido.
+     */
     public void setUsuarioService(UsuarioService usuarioService) {
         this.usuarioService = usuarioService;
     }

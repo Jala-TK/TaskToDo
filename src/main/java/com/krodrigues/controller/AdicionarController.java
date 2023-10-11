@@ -13,6 +13,9 @@ import javafx.stage.Stage;
 
 import java.time.LocalDate;
 
+/**
+ * Esta classe controla a interface de adição de tarefas e suas ações.
+ */
 public class AdicionarController {
 
     @FXML
@@ -29,12 +32,21 @@ public class AdicionarController {
 
     private final TarefaService tarefaService;
 
-
+    /**
+     * Construtor que recebe um serviço de tarefa para gerenciar a adição.
+     *
+     * @param tarefaService O serviço de tarefa.
+     */
     public AdicionarController(TarefaService tarefaService) {
         this.tarefaService = tarefaService;
     }
 
-
+    /**
+     * Método chamado quando o botão "Salvar Tarefa" é clicado para adicionar uma
+     * nova tarefa.
+     *
+     * @param event O evento de ação associado ao clique do botão.
+     */
     public void salvarTarefa(ActionEvent event) {
         String nome = tarefaName.getText();
         LocalDate dataInicio = tarefaDtInicio.getValue();
