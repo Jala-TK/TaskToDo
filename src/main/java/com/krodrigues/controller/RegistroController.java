@@ -117,7 +117,7 @@ public class RegistroController {
     private void abrirTelaLogin() {
         try {
             Stage loginStage = new Stage();
-            loginStage.setTitle("Login");
+            loginStage.setTitle("Login - TaskSoft");
 
             FXMLLoader loginLoader = new FXMLLoader(getClass().getResource("/com/krodrigues/view/login.fxml"));
 

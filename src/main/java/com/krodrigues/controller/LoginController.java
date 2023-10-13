@@ -76,7 +76,7 @@ public class LoginController {
 
             try {
                 Stage tabelaStage = new Stage();
-                tabelaStage.setTitle("Tarefas");
+                tabelaStage.setTitle("Tarefas - TaskSoft");
 
                 FXMLLoader fxmlLoader = new FXMLLoader();
                 fxmlLoader.setLocation(getClass().getResource("/com/krodrigues/view/tabela-view.fxml"));
@@ -120,7 +120,7 @@ public class LoginController {
     @FXML
     public void abrirCadastro(ActionEvent actionEvent) throws IOException {
         Stage cadastroStage = new Stage();
-        cadastroStage.setTitle("Registrar-se");
+        cadastroStage.setTitle("Registrar-se - TaskSoft");
 
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("/com/krodrigues/view/register.fxml"));

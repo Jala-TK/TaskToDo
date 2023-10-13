@@ -1,4 +1,4 @@
-##  Task ToDo
+##  TaskSoft
 
 O programa te permite criar, visualizar, editar e remover tarefas, com uma interface intuitiva de tabela e um banco de dados local.
 

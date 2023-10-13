@@ -227,7 +227,7 @@ public class TabelaController {
     private void abrirPainelEdicao(Tarefa tarefaSelecionada) throws IOException {
         if (tarefaSelecionada != null) {
             Stage editStage = new Stage();
-            editStage.setTitle("Editar Tarefa");
+            editStage.setTitle("Editar Tarefa - TaskSoft");
 
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("/com/krodrigues/view/edit-view.fxml"));
@@ -280,7 +280,7 @@ public class TabelaController {
     @FXML
     private void adicionarTarefa() throws IOException {
         Stage addStage = new Stage();
-        addStage.setTitle("Adicionar Tarefa");
+        addStage.setTitle("Adicionar Tarefa - TaskSoft");
 
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("/com/krodrigues/view/add-view.fxml"));
@@ -326,7 +326,7 @@ public class TabelaController {
         // Abre a tela de login
         try {
             Stage loginStage = new Stage();
-            loginStage.setTitle("Login");
+            loginStage.setTitle("Login - TaskSoft");
 
             FXMLLoader loginLoader = new FXMLLoader(getClass().getResource("/com/krodrigues/view/login.fxml"));
             Parent root = loginLoader.load();

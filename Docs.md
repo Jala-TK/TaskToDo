@@ -6,7 +6,7 @@ Este é um guia de documentação para o projeto "Task To-Do" desenvolvido em Ja
 
 ### Diagrama
 
-![Diagrama](./docs/Todo-diagrama.png)
+![Diagrama](./docs/Todo-diagrama-1.png)
 
 ### Estrutura do Banco de Dados
 

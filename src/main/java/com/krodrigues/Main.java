@@ -31,7 +31,7 @@ public class Main extends Application {
         Scene loginScene = new Scene(loginRoot);
 
         // Configure o estágio principal para exibir a cena de login
-        stage.setTitle("Login - Kainan Rodrigues");
+        stage.setTitle("Login - TaskSoft");
 
         // Define o ícone da aplicação
         Image icone = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/icone.png")));
