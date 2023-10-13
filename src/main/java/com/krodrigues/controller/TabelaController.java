@@ -153,7 +153,10 @@ public class TabelaController {
 
         // Configuração para atualizar constantemente o campo labDateNow
         Duration duration = Duration.seconds(1); // Atualizar a cada segundo
-        KeyFrame keyFrame = new KeyFrame(duration, (EventHandler<ActionEvent>) actionEvent -> atualizarDataHoraAtual());
+        KeyFrame keyFrame = new KeyFrame(duration, (EventHandler<ActionEvent>) actionEvent -> {
+            atualizarDataHoraAtual();
+            atualizarBarraDeProgresso(); // Adicione esta linha
+        });
         // Variável para o Timeline
         Timeline clock = new Timeline(keyFrame);
         clock.setCycleCount(Timeline.INDEFINITE); // Executar indefinidamente
@@ -268,10 +271,10 @@ public class TabelaController {
 
     public void atualizarTabela() {
         List<Tarefa> tarefas = tarefaService.buscarTodasTarefas();
+        atualizarBarraDeProgresso();
 
         ObservableList<Tarefa> listaTarefas = FXCollections.observableArrayList(tarefas);
         tableView.setItems(listaTarefas);
-        atualizarBarraDeProgresso();
     }
 
     @FXML
